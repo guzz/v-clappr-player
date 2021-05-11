@@ -1,0 +1,164 @@
+import { Meta, Canvas, Story, ArgsTable } from '@storybook/addon-docs/blocks';
+import VClapprPlayer from '../../components/VClapprPlayer.vue';
+
+<Meta
+  title="Plugins/Queue Plugin"
+  component={VClapprPlayer}
+  argTypes={{
+    source: {
+      defaultValue: 'https://bitdash-a.akamaihd.net/content/MI201109210084_1/m3u8s/f08e80da-bf1d-4e3d-8899-f0f6155f6efa.m3u8',
+      control: {
+        type: 'text'
+      }
+    },
+    id: {
+      table: { disable: true }
+    },
+    options: {
+      defaultValue: {}
+    },
+    queue: {
+      defaultValue: {
+        nextVideos: [
+          'http://clappr.io/highline.mp4',
+          'http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4',
+          '//storage.googleapis.com/shaka-demo-assets/angel-one/dash.mpd',
+          'https://www.youtube.com/watch?v=fCUTX1jurJ4'
+        ],
+        autoPlayNextVideo: true
+      }
+    },
+    width: {
+      table: { disable: true }
+    },
+    height: {
+      table: { disable: true }
+    },
+    aspectRatio: {
+      table: { disable: true }
+    },
+    externalPlugins: {
+      table: { disable: true }
+    },
+    error: {
+      table: { disable: true }
+    },
+    resize: {
+      table: { disable: true }
+    },
+    play: {
+      table: { disable: true }
+    },
+    pause: {
+      table: { disable: true }
+    },
+    stop: {
+      table: { disable: true }
+    },
+    stop: {
+      table: { disable: true }
+    },
+    seek: {
+      table: { disable: true }
+    },
+    'time-update': {
+      table: { disable: true }
+    },
+    'volume-update': {
+      table: { disable: true }
+    },
+    'subtitle-available': {
+      table: { disable: true }
+    }
+  }}
+/>
+
+export const Template = (args, { argTypes }) => ({
+  props: Object.keys(argTypes),
+  components: { VClapprPlayer },
+  methods: {
+    playPosition (index) {
+      console.log(this.$refs.clappr.plugins.queue)
+      this.$refs.clappr.player.playQueuePosition(index)
+    },
+    nextVideo () {
+      this.$refs.clappr.player.playNextVideoOnQueue()
+    }
+  },
+  template:
+    '<div><v-clappr-player ref="clappr" :queue="queue" :id="id" :source="source" width="100%" :options="options" :aspect-ratio="16 / 9" /><button @click="nextVideo">Next Video</button><button @click="playPosition(3)">Play Number 3</button></div>',
+});
+
+# Queue Plugin
+##### name: "*queue*"
+
+Play sources one after the other, creating a playlist that can be managed dinamically.
+
+repository: [https://github.com/joaopaulovieira/clappr-queue-plugin](https://github.com/joaopaulovieira/clappr-queue-plugin)
+
+## Usage
+
+```js
+<template>
+  <div>
+    <v-clappr-player
+      ref="clappr"
+      id="queued-player"
+      source="https://bitdash-a.akamaihd.net/content/MI201109210084_1/m3u8s/f08e80da-bf1d-4e3d-8899-f0f6155f6efa.m3u8"
+      width="100%"
+      :queue="queue"
+      :aspect-ratio="16 / 9"
+    />
+    <button @click="nextVideo">Next Video</button>
+    <button @click="playPosition(3)">Play Number 3</button>
+  </div>
+</template>
+
+<script>
+import VClapprPlayer from 'v-clappr-player'
+
+export default {
+  components: {
+    VClapprPlayer
+  },
+  computed: {
+    queue () {
+      return {
+        nextVideos: [ // You can use different video formats
+          'http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4',
+          '//storage.googleapis.com/shaka-demo-assets/angel-one/dash.mpd',
+          'https://www.youtube.com/watch?v=fCUTX1jurJ4'
+        ],
+        autoPlayNextVideo: true
+      }
+    }
+  },
+  methods: {
+    playPosition (index) {
+      this.$refs.clappr.player.playQueuePosition(index)
+    },
+    nextVideo () {
+      this.$refs.clappr.player.playNextVideoOnQueue()
+    }
+  }
+}
+</script>
+```
+
+### See it working
+
+
+<Canvas>
+  <Story
+    name="QueuePlugin"
+    parameters={{ layout: 'fullscreen' }}
+    decorators={[() => ({template: '<div style="width: 100%; margin: auto;"><div style="width: 640px; margin: auto;"><story /></div></div>'})]}
+    argTypes={{
+      id: {
+        defaultValue: 'queued-player'
+      }
+    }}
+  >
+    {Template.bind({})}
+  </Story>
+</Canvas>

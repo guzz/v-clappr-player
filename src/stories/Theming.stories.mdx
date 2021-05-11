@@ -1,0 +1,129 @@
+import { Meta, Canvas, Story, ArgsTable } from '@storybook/addon-docs/blocks';
+import VClapprPlayer from '../components/VClapprPlayer.vue';
+
+<Meta
+  title="Theming"
+  component={VClapprPlayer}
+  argTypes={{
+    source: {
+      defaultValue: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4',
+      control: {
+        type: 'text'
+      }
+    },
+    id: {
+      table: { disable: true }
+    },
+    width: {
+      table: { disable: true }
+    },
+    height: {
+      table: { disable: true }
+    },
+    aspectRatio: {
+      table: { disable: true }
+    },
+    externalPlugins: {
+      table: { disable: true }
+    },
+    error: {
+      table: { disable: true }
+    },
+    resize: {
+      table: { disable: true }
+    },
+    play: {
+      table: { disable: true }
+    },
+    pause: {
+      table: { disable: true }
+    },
+    stop: {
+      table: { disable: true }
+    },
+    stop: {
+      table: { disable: true }
+    },
+    seek: {
+      table: { disable: true }
+    },
+    'time-update': {
+      table: { disable: true }
+    },
+    'volume-update': {
+      table: { disable: true }
+    },
+    'subtitle-available': {
+      table: { disable: true }
+    }
+  }}
+/>
+
+export const Template = (args, { argTypes }) => ({
+  props: Object.keys(argTypes),
+  components: { VClapprPlayer },
+  template:
+    '<v-clappr-player :id="id" :source="source" width="100%" :options="options" :aspect-ratio="16 / 9" />',
+});
+
+# Theming
+
+### Controls
+You can configure the `seekbar` and `buttons` colors by passing an `mediacontrol` property in the options.
+
+### Poster
+Pass a `poster` property to define an image to be shown before the video is played.
+
+```js
+<template>
+  <v-clappr-player
+    ref="clappr"
+    id="themed-player"
+    source="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
+    width="100%"
+    :options="options"
+    :aspect-ratio="16 / 9"
+  />
+</template>
+
+<script>
+import VClapprPlayer from 'v-clappr-player'
+
+export default {
+  components: {
+    VClapprPlayer
+  },
+  computed: {
+    options () {
+      return {
+        mediacontrol: { seekbar: '#f39d52', buttons: 'green' },
+        poster: 'https://i.pinimg.com/originals/df/51/0f/df510f0dd46630f457df9f88d3379691.jpg'
+      }
+    }
+  }
+}
+</script>
+```
+
+### See how it looks
+
+<Canvas>
+  <Story
+    name="ExampleTheming"
+    parameters={{ layout: 'fullscreen' }}
+    decorators={[() => ({template: '<div style="width: 100%; margin: auto;"><div style="width: 640px; margin: auto;"><story /></div></div>'})]}
+    argTypes={{
+      options: {
+        defaultValue: {
+          mediacontrol: { seekbar: '#f39d52', buttons: 'green' },
+          poster: 'https://i.pinimg.com/originals/df/51/0f/df510f0dd46630f457df9f88d3379691.jpg'
+        }
+      },
+      id: {
+        defaultValue: 'themed-player'
+      }
+    }}
+  >
+    {Template.bind({})}
+  </Story>
+</Canvas>

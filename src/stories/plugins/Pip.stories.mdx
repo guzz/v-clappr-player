@@ -1,0 +1,122 @@
+import { Meta, Canvas, Story, ArgsTable } from '@storybook/addon-docs/blocks';
+import VClapprPlayer from '../../components/VClapprPlayer.vue';
+
+<Meta
+  title="Plugins/Picture in Picture Plugin"
+  component={VClapprPlayer}
+  argTypes={{
+    source: {
+      defaultValue: 'https://bitdash-a.akamaihd.net/content/MI201109210084_1/m3u8s/f08e80da-bf1d-4e3d-8899-f0f6155f6efa.m3u8',
+      control: {
+        type: 'text'
+      }
+    },
+    id: {
+      table: { disable: true }
+    },
+    options: {
+      defaultValue: {}
+    },
+    width: {
+      table: { disable: true }
+    },
+    height: {
+      table: { disable: true }
+    },
+    aspectRatio: {
+      table: { disable: true }
+    },
+    externalPlugins: {
+      table: { disable: true }
+    },
+    error: {
+      table: { disable: true }
+    },
+    resize: {
+      table: { disable: true }
+    },
+    play: {
+      table: { disable: true }
+    },
+    pause: {
+      table: { disable: true }
+    },
+    stop: {
+      table: { disable: true }
+    },
+    stop: {
+      table: { disable: true }
+    },
+    seek: {
+      table: { disable: true }
+    },
+    'time-update': {
+      table: { disable: true }
+    },
+    'volume-update': {
+      table: { disable: true }
+    },
+    'subtitle-available': {
+      table: { disable: true }
+    }
+  }}
+/>
+
+export const Template = (args, { argTypes }) => ({
+  props: Object.keys(argTypes),
+  components: { VClapprPlayer },
+  template:
+    '<v-clappr-player ref="clappr" allow-pip :id="id" :source="source" width="100%" :options="options" :aspect-ratio="16 / 9" />',
+});
+
+# Picture in Picture Plugin
+
+Enable clappr to play the video in Picture in Picture mode, when the browser support it.
+
+repository: [https://github.com/tjenkinson/clappr-pip-plugin](https://github.com/tjenkinson/clappr-pip-plugin)
+
+fork: [https://github.com/guzz/clappr-pip-plugin](https://github.com/guzz/clappr-pip-plugin)
+
+npm: [https://www.npmjs.com/package/@guzzj/clappr-pip-plugin](https://www.npmjs.com/package/@guzzj/clappr-pip-plugin)
+
+## Usage
+
+```js
+<template>
+  <v-clappr-player
+    ref="clappr"
+    id="pip-player"
+    source="https://bitdash-a.akamaihd.net/content/MI201109210084_1/m3u8s/f08e80da-bf1d-4e3d-8899-f0f6155f6efa.m3u8"
+    width="100%"
+    allow-pip
+    :aspect-ratio="16 / 9"
+  />
+</template>
+
+<script>
+import VClapprPlayer from 'v-clappr-player'
+
+export default {
+  components: {
+    VClapprPlayer
+  }
+}
+</script>
+```
+
+### See it working
+
+<Canvas>
+  <Story
+    name="PipPlugin"
+    parameters={{ layout: 'fullscreen' }}
+    decorators={[() => ({template: '<div style="width: 100%; margin: auto;"><div style="width: 640px; margin: auto;"><story /></div></div>'})]}
+    argTypes={{
+      id: {
+        defaultValue: 'pip-player'
+      }
+    }}
+  >
+    {Template.bind({})}
+  </Story>
+</Canvas>

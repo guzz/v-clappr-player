@@ -1,0 +1,277 @@
+import { Meta, Canvas, Story, ArgsTable } from '@storybook/addon-docs/blocks';
+import VClapprPlayer from '../../components/VClapprPlayer.vue';
+
+<Meta
+  title="Plugins/Thumbnails Plugin"
+  component={VClapprPlayer}
+  argTypes={{
+    source: {
+      defaultValue: 'https://tjenkinson.me/clappr-thumbnails-plugin/assets/video.mp4',
+      control: {
+        type: 'text'
+      }
+    },
+    id: {
+      table: { disable: true }
+    },
+    options: {
+      defaultValue: {}
+    },
+    width: {
+      table: { disable: true }
+    },
+    height: {
+      table: { disable: true }
+    },
+    aspectRatio: {
+      table: { disable: true }
+    },
+    externalPlugins: {
+      table: { disable: true }
+    },
+    error: {
+      table: { disable: true }
+    },
+    resize: {
+      table: { disable: true }
+    },
+    play: {
+      table: { disable: true }
+    },
+    pause: {
+      table: { disable: true }
+    },
+    stop: {
+      table: { disable: true }
+    },
+    stop: {
+      table: { disable: true }
+    },
+    seek: {
+      table: { disable: true }
+    },
+    'time-update': {
+      table: { disable: true }
+    },
+    'volume-update': {
+      table: { disable: true }
+    },
+    'subtitle-available': {
+      table: { disable: true }
+    }
+  }}
+/>
+
+export const Template = (args, { argTypes }) => ({
+  props: Object.keys(argTypes),
+  components: { VClapprPlayer },
+  data: () => ({
+    thumbs: []
+  }),
+  computed: {
+    scrubThumbnails () {
+      return {
+        backdropHeight: 64, // set to 0 or null to disable backdrop
+        spotlightHeight: 84, // set to 0 or null to disable spotlight
+        backdropMinOpacity: 0.4, // optional
+        backdropMaxOpacity: 1, // optional
+        thumbs: this.thumbs
+      }
+    }
+  },
+  created () {
+    for (let i=0; i<104; i++) {
+      this.thumbs.push({
+        url: 'https://tjenkinson.me/clappr-thumbnails-plugin/assets/thumbnails/thumb_'+(i+1)+'.jpg',
+        time: 1 + (i*2)
+      });
+    }
+  },
+  template:
+    '<v-clappr-player ref="clappr" :scrub-thumbnails="scrubThumbnails" :id="id" :source="source" width="100%" :options="options" :aspect-ratio="16 / 9" />',
+});
+
+# Thumbnails Plugin
+##### name: "*scrub-thumbnails*"
+
+Create a thumbnail preview strip on top of the seek bar. 
+
+repository: [https://github.com/tjenkinson/clappr-thumbnails-plugin](https://github.com/tjenkinson/clappr-thumbnails-plugin)
+
+fork: [https://github.com/guzz/clappr-thumbnails-plugin](https://github.com/guzz/clappr-thumbnails-plugin)
+
+npm: [https://www.npmjs.com/package/@guzzj/clappr-thumbnails-plugin](https://www.npmjs.com/package/@guzzj/clappr-thumbnails-plugin)
+
+## Usage
+
+```js
+<template>
+  <v-clappr-player
+    ref="clappr"
+    id="thumbnails-player"
+    source="https://tjenkinson.me/clappr-thumbnails-plugin/assets/video.mp4"
+    width="100%"
+    :scrub-thumbnails="scrubThumbnails"
+    :aspect-ratio="16 / 9"
+  />
+</template>
+
+<script>
+import VClapprPlayer from 'v-clappr-player'
+
+export default {
+  components: {
+    VClapprPlayer
+  },
+  data: () => ({
+    thumbs: []
+  }),
+  computed: {
+    scrubThumbnails () {
+      return {
+        backdropHeight: 64, // set to 0 or null to disable backdrop
+        spotlightHeight: 84, // set to 0 or null to disable spotlight
+        backdropMinOpacity: 0.4, // optional
+        backdropMaxOpacity: 1, // optional
+        thumbs: this.thumbs
+      }
+    }
+  },
+  created () {
+    for (let i=0; i<104; i++) {
+      this.thumbs.push({
+        url: 'https://tjenkinson.me/clappr-thumbnails-plugin/assets/thumbnails/thumb_'+(i+1)+'.jpg',
+        time: 1 + (i*2)
+      });
+    }
+  }
+}
+</script>
+```
+
+### See it working
+
+
+<Canvas>
+  <Story
+    name="ThumbnailsPlugin"
+    parameters={{ layout: 'fullscreen' }}
+    decorators={[() => ({template: '<div style="width: 100%; margin: auto;"><div style="width: 640px; margin: auto;"><story /></div></div>'})]}
+    argTypes={{
+      id: {
+        defaultValue: 'thumbnails-player'
+      }
+    }}
+  >
+    {Template.bind({})}
+  </Story>
+</Canvas>
+
+
+### Using a sprite sheet for your thumbnails
+
+A sprite sheet is a single image file with all images for your tumbnails concatenated in a matrix like the one below.
+
+<img alt="sprite sheet" src="/sprite.jpg" style={{ width: '450px' }} />
+
+There are many ways to create a sprite sheet, see some options below:
+
+- [Node library](https://github.com/tmfksoft/thumbnail-generator)
+- [Python script](https://github.com/tylertroy/video2sprites)
+- [Generate online](https://www.videohop.com.au/thumbnail-generator)
+
+#### Configuration
+
+export const Template2 = (args, { argTypes }) => ({
+  props: Object.keys(argTypes),
+  components: { VClapprPlayer },
+  computed: {
+    scrubThumbnails () {
+      return {
+        backdropHeight: 0, // set to 0 or null to disable backdrop
+        spotlightHeight: 84, // set to 0 or null to disable spotlight
+        backdropMinOpacity: 0.4, // optional
+        backdropMaxOpacity: 1, // optional
+        thumbs: []
+      }
+    },
+    scrubThumbnailsFromSprite () {
+      return {
+        spriteSheetUrl: '/sprite.jpg',
+        numThumbs: 36,
+        thumbWidth: 284,
+        thumbHeight: 160,
+        numColumns: 6,
+        timeInterval: 1
+      }
+    }
+  },
+  template:
+    '<v-clappr-player ref="clappr" :scrub-thumbnails="scrubThumbnails" :scrub-thumbnails-from-sprite="scrubThumbnailsFromSprite" :id="id" :source="source" width="100%" :options="options" :aspect-ratio="16 / 9" />',
+});
+
+```js
+<template>
+  <v-clappr-player
+    ref="clappr"
+    id="thumbnails-player"
+    source="/highline.mp4"
+    width="100%"
+    :scrub-thumbnails="scrubThumbnails"
+    :scrub-thumbnails-from-sprite="scrubThumbnailsFromSprite"
+    :aspect-ratio="16 / 9"
+  />
+</template>
+
+<script>
+import VClapprPlayer from 'v-clappr-player'
+
+export default {
+  components: {
+    VClapprPlayer
+  },
+  computed: {
+    scrubThumbnails () {
+      return {
+        backdropHeight: 0, // set to 0 or null to disable backdrop
+        spotlightHeight: 84, // set to 0 or null to disable spotlight
+        backdropMinOpacity: 0.4, // optional
+        backdropMaxOpacity: 1, // optional
+        thumbs: []
+      }
+    },
+    scrubThumbnailsFromSprite () {
+      return {
+        spriteSheetUrl: '/sprite.jpg',
+        numThumbs: 36,
+        thumbWidth: 284,
+        thumbHeight: 160,
+        numColumns: 6,
+        timeInterval: 1
+      }
+    }
+  }
+}
+</script>
+```
+
+### See it working
+
+
+<Canvas>
+  <Story
+    name="ThumbnailsPluginSprite"
+    parameters={{ layout: 'fullscreen' }}
+    decorators={[() => ({template: '<div style="width: 100%; margin: auto;"><div style="width: 640px; margin: auto;"><story /></div></div>'})]}
+    argTypes={{
+      id: {
+        defaultValue: 'thumbnails-sprite-player'
+      },
+      source: {
+        defaultValue: '/highline.mp4'
+      }
+    }}
+  >
+    {Template2.bind({})}
+  </Story>
+</Canvas>

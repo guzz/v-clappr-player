@@ -1,0 +1,287 @@
+import { Meta, Canvas, Story, ArgsTable } from '@storybook/addon-docs/blocks';
+import VClapprPlayer from '../../components/VClapprPlayer.vue';
+
+<Meta
+  title="Plugins/Stats Plugin"
+  component={VClapprPlayer}
+  argTypes={{
+    source: {
+      defaultValue: 'https://bitdash-a.akamaihd.net/content/MI201109210084_1/m3u8s/f08e80da-bf1d-4e3d-8899-f0f6155f6efa.m3u8',
+      control: {
+        type: 'text'
+      }
+    },
+    clapprStats: {
+      defaultValue: {}
+    },
+    clapprNerdStats: {
+      defaultValue: {}
+    },
+    id: {
+      table: { disable: true }
+    },
+    options: {
+      defaultValue: {}
+    },
+    width: {
+      table: { disable: true }
+    },
+    height: {
+      table: { disable: true }
+    },
+    aspectRatio: {
+      table: { disable: true }
+    },
+    externalPlugins: {
+      table: { disable: true }
+    },
+    error: {
+      table: { disable: true }
+    },
+    resize: {
+      table: { disable: true }
+    },
+    play: {
+      table: { disable: true }
+    },
+    pause: {
+      table: { disable: true }
+    },
+    stop: {
+      table: { disable: true }
+    },
+    stop: {
+      table: { disable: true }
+    },
+    seek: {
+      table: { disable: true }
+    },
+    'time-update': {
+      table: { disable: true }
+    },
+    'volume-update': {
+      table: { disable: true }
+    },
+    'subtitle-available': {
+      table: { disable: true }
+    }
+  }}
+/>
+
+export const Template = (args, { argTypes }) => ({
+  props: Object.keys(argTypes),
+  components: { VClapprPlayer },
+  template:
+    '<v-clappr-player ref="clappr" :clappr-stats="clapprStats" :clappr-nerd-stats="clapprNerdStats" :id="id" :source="source" width="100%" :options="options" :aspect-ratio="16 / 9" />',
+});
+
+# Stats & NerdStats Plugin's
+
+This two plugin work with each other. The base for it is the `Stats` while `NerdStats` plugin is a UI wrapper for showing the info in real time.
+
+Plugin           |Original|Fork|Npm|
+-----------------|--------|----|---|
+Stats            |[Original](https://github.com/clappr/clappr-stats)|[Fork](https://github.com/guzz/clappr-stats)|[Npm](https://www.npmjs.com/package/@guzzj/stats-plugin)
+NerdStats        |[Original](https://github.com/lucasrodcosta/clappr-nerd-stats)|[Fork](https://github.com/guzz/clappr-nerd-stats)|[Npm](https://www.npmjs.com/package/@guzzj/clappr-nerd-stats)
+
+## Stats Only Usage
+
+```js
+<template>
+  <v-clappr-player
+    ref="clappr"
+    id="stats-player"
+    source="https://bitdash-a.akamaihd.net/content/MI201109210084_1/m3u8s/f08e80da-bf1d-4e3d-8899-f0f6155f6efa.m3u8"
+    width="100%"
+    :clappr-stats="clapprStats"
+    :aspect-ratio="16 / 9"
+  />
+</template>
+
+<script>
+import VClapprPlayer from 'v-clappr-player'
+
+export default {
+  components: {
+    VClapprPlayer
+  },
+  computed: {
+    clapprStats () {
+      return {
+        // optional: time in miliseconds for each report.
+        // default: 5000
+        runEach: 5000,
+        // optional: callback function.
+        // default: console.log
+        onReport: (metrics) => {console.log(metrics)},
+        // Fire PERCENTAGE_EVENT when video complete some percentage.
+        // default: []
+        onCompletion: [10, 20, 55, 100],
+        // optional: provide an img uri hosted at the same place as your farm
+        // or near of it prefferable 1x1px, without caching.
+        // default: none
+        uriToMeasureLatency: 'http://www.example.com/images/tv/pixel-1x1-red.gif',
+        // optional: provide some assets uris hosted at the same place as your farm
+        // or near of it prefferable in an uncompressible file format, without caching.
+        // default: none
+        urisToMeasureBandwidth: [
+          {url: 'http://www.example.com/images/tv/500kb.jpg', timeout: 3000},
+          {url: 'http://www.example.com/images/tv/1mb.jpg', timeout: 6000},
+          {url: 'http://www.example.com/images/tv/5mb.jpg', timeout: 12000}
+        ],
+        // optional: number of reports between two consecutive bandwidth tests.
+        // default: 10
+        runBandwidthTestEvery: 10
+      }
+    }
+  },
+}
+</script>
+```
+
+The `metrics` returned by the `onReport` method is an Object as you see below:
+
+```js
+{
+  counters: {
+    play: 0, // number of plays
+    pause: 0, // number of pauses
+    error: 0, // number of errors
+    buffering: 0, // number of bufferings
+    decodedFrames: 0, // number of decoded frames (when available)
+    droppedFrames: 0, // number of dropped frames (when available)
+    fps: 0, // frames per second (when available)
+    changeLevel: 0, // number of adaptative bitrate changes
+    seek: 0, // number of seeks
+    fullscreen: 0, // number of times that user went to fullscreen
+    dvrUsage: 0 // number of time that user used dvr seek (at live stream)
+  },
+  timers: {
+    startup: 0, // time (ms) since user click/touch play (intent to play) to the play
+    watch: 0, // time (ms) of watched content (does not include pause and buffering)
+    pause: 0, // time (ms) of paused content
+    buffering: 0, // time (ms) of buffering
+    session: 0, // time (ms) of session (sum of watch+pause+buffering)
+    latency: 0, // time (ms) of latency between user and the provided uri
+  },
+  extra: {
+    playbackName: '', // playback name (hls, html5_video, flashls)
+    playbackType: '', // vod or live
+    buffersize: 0, // buffersize in ms
+    duration: 0, // duration time in ms
+    currentTime: 0, // current time in ms
+    bitratesHistory: [], // the bitrates changes history
+    bitrateWeightedMean: 0, // bitrate weighted mean (bps)
+    bitrateMostUsed: 0, // most used (based on time) bitrate (bps)
+    watchHistory: [], // an array of an array of watched range time ex: [0, 2200]
+    watchedPercentage: 0, // % of watched time
+    bufferingPercentage: 0, // % of buffering time
+    bandwidth: 0, // user bandwidth (bps)
+  }
+}
+```
+
+### See it working
+
+<Canvas>
+  <Story
+    name="StatsPlugin"
+    parameters={{ layout: 'fullscreen' }}
+    decorators={[() => ({template: '<div style="width: 100%; margin: auto;"><div style="width: 640px; margin: auto;"><story /></div></div>'})]}
+    argTypes={{
+      id: {
+        defaultValue: 'stats-player'
+      },
+      clapprStats: {
+        defaultValue: {
+          runEach: 5000,
+          onReport: (metrics) => {console.log(metrics)},
+          onCompletion: [10, 20, 55, 100]
+        }
+      },
+      clapprNerdStats: {
+        defaultValue: null
+      }
+    }}
+  >
+    {Template.bind({})}
+  </Story>
+</Canvas>
+
+
+## NerdStats Usage
+
+```js
+<template>
+  <v-clappr-player
+    ref="clappr"
+    id="stats-player"
+    source="https://bitdash-a.akamaihd.net/content/MI201109210084_1/m3u8s/f08e80da-bf1d-4e3d-8899-f0f6155f6efa.m3u8"
+    width="100%"
+    :clappr-stats="clapprStats"
+    :clappr-nerd-stats="clapprNerdStats"
+    :aspect-ratio="16 / 9"
+  />
+</template>
+
+<script>
+import VClapprPlayer from 'v-clappr-player'
+
+export default {
+  components: {
+    VClapprPlayer
+  },
+  computed: {
+    clapprStats () { // You still can pass clapprStats to overide the options defaults. (optional)
+      return {
+        runEach: 7000
+      }
+    },
+    clapprNerdStats () {
+      return {
+        // Optional: provide multiple combination of keyboard shortcuts to show/hide the statistics.
+        // For reference, visit: https://github.com/ccampbell/mousetrap.
+        // Default: ['command+shift+s', 'ctrl+shift+s']
+        shortcut: ['command+shift+s', 'ctrl+shift+s'],
+
+        // Optional: position of the icon to show/hide the statistics.
+        // Values: 'top-right', 'top-left', 'bottom-right', 'bottom-left', 'none'
+        // Default: 'top-right'
+        iconPosition: 'top-left'
+      }
+    }
+  },
+}
+</script>
+```
+
+### See it working
+
+<Canvas>
+  <Story
+    name="NerdStatsPlugin"
+    parameters={{ layout: 'fullscreen' }}
+    decorators={[() => ({template: '<div style="width: 100%; margin: auto;"><div style="width: 640px; margin: auto;"><story /></div></div>'})]}
+    argTypes={{
+      id: {
+        defaultValue: 'nerd-stats-player'
+      },
+      clapprStats: null,
+      clapprNerdStats: {
+        defaultValue: {
+          iconPosition: 'top-left'
+        }
+      }
+    }}
+  >
+    {Template.bind({})}
+  </Story>
+</Canvas>
+
+
+## TODO's
+
+- [ ] Add styles for other icon positions
+- [ ] Fix resolution for percentage base `width` / `height`
+- [ ] Fix `px` and `%` use in resolution
+- [ ] Make the scroll from sub categories in NerdStats that is reset on stats updates

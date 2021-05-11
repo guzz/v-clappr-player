@@ -1,0 +1,173 @@
+import { Meta, Canvas, Story, ArgsTable } from '@storybook/addon-docs/blocks';
+import VClapprPlayer from '../../components/VClapprPlayer.vue';
+
+<Meta
+  title="Plugins/Context Plugin"
+  component={VClapprPlayer}
+  argTypes={{
+    source: {
+      defaultValue: 'https://bitdash-a.akamaihd.net/content/MI201109210084_1/m3u8s/f08e80da-bf1d-4e3d-8899-f0f6155f6efa.m3u8',
+      control: {
+        type: 'text'
+      }
+    },
+    styles: {
+      defaultValue: {},
+      table: { disable: true }
+    },
+    id: {
+      table: { disable: true }
+    },
+    options: {
+      defaultValue: {}
+    },
+    width: {
+      table: { disable: true }
+    },
+    height: {
+      table: { disable: true }
+    },
+    aspectRatio: {
+      table: { disable: true }
+    },
+    externalPlugins: {
+      table: { disable: true }
+    },
+    error: {
+      table: { disable: true }
+    },
+    resize: {
+      table: { disable: true }
+    },
+    play: {
+      table: { disable: true }
+    },
+    pause: {
+      table: { disable: true }
+    },
+    stop: {
+      table: { disable: true }
+    },
+    stop: {
+      table: { disable: true }
+    },
+    seek: {
+      table: { disable: true }
+    },
+    'time-update': {
+      table: { disable: true }
+    },
+    'volume-update': {
+      table: { disable: true }
+    },
+    'subtitle-available': {
+      table: { disable: true }
+    }
+  }}
+/>
+
+export const Template = (args, { argTypes }) => ({
+  props: Object.keys(argTypes),
+  components: { VClapprPlayer },
+  computed: {
+    contextMenu () {
+      return {
+        menuItems: [`copyURL`, `copyURLCurrentTime`, `loop`, `playerVersion`],
+        extraOptions: [
+          {
+            name: 'test',
+            label: 'Test Label',
+            //optional
+            callback: function() {
+              console.log('A absolutely awesome extra context menu item action')
+            }
+          }
+        ],
+        customStyle: {
+          ...this.styles
+        }
+      }
+    }
+  },
+  template:
+    '<v-clappr-player ref="clappr" :context-menu="contextMenu" :id="id" :source="source" width="100%" :options="options" :aspect-ratio="16 / 9" />',
+});
+
+# Context Plugin
+##### name: "*context-menu*"
+
+Create a context menu when the player is clicked with the right mouse butoon.
+
+repository: [https://github.com/joaopaulovieira/clappr-context-menu-plugin](https://github.com/joaopaulovieira/clappr-context-menu-plugin)
+
+## Usage
+
+```js
+<template>
+  <v-clappr-player
+    ref="clappr"
+    id="queued-player"
+    source="https://bitdash-a.akamaihd.net/content/MI201109210084_1/m3u8s/f08e80da-bf1d-4e3d-8899-f0f6155f6efa.m3u8"
+    width="100%"
+    :context-menu="contextMenu"
+    :aspect-ratio="16 / 9"
+  />
+</template>
+
+<script>
+import VClapprPlayer from 'v-clappr-player'
+
+export default {
+  components: {
+    VClapprPlayer
+  },
+  computed: {
+    contextMenu () {
+      return {
+        menuItems: [`copyURL`, `copyURLCurrentTime`, `loop`, `playerVersion`],
+        extraOptions: [
+          {
+            name: 'test',
+            label: 'Test Label',
+            //optional
+            callback: function() {
+              console.log('A absolutely awesome extra context menu item action')
+            }
+          }
+        ],
+        customStyle: { // Custom styles
+          container: {
+            'display': 'block'
+          },
+          list: {
+            'background-color': 'gray'
+          },
+          items: {
+            'color': 'yellow'
+          }
+        }
+      }
+    }
+  },
+}
+</script>
+```
+
+### See it working
+
+<Canvas>
+  <Story
+    name="ContextPlugin"
+    parameters={{ layout: 'fullscreen' }}
+    decorators={[() => ({template: '<div style="width: 100%; margin: auto;"><div style="width: 640px; margin: auto;"><story /></div></div>'})]}
+    argTypes={{
+      id: {
+        defaultValue: 'context-player'
+      }
+    }}
+  >
+    {Template.bind({})}
+  </Story>
+</Canvas>
+
+

@@ -1,0 +1,145 @@
+import { Meta, Canvas, Story, ArgsTable } from '@storybook/addon-docs/blocks';
+import VClapprPlayer from '../components/VClapprPlayer.vue';
+
+<Meta
+  title="Usage"
+  component={VClapprPlayer}
+  argTypes={{
+    source: {
+      defaultValue: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4',
+      control: {
+        type: 'text'
+      }
+    },
+    options: {
+      defaultValue: {}
+    },
+    id: {
+      table: { disable: true }
+    },
+    width: {
+      table: { disable: true }
+    },
+    height: {
+      table: { disable: true }
+    },
+    aspectRatio: {
+      table: { disable: true }
+    },
+    externalPlugins: {
+      table: { disable: true }
+    },
+    error: {
+      table: { disable: true }
+    },
+    resize: {
+      table: { disable: true }
+    },
+    play: {
+      table: { disable: true }
+    },
+    pause: {
+      table: { disable: true }
+    },
+    stop: {
+      table: { disable: true }
+    },
+    stop: {
+      table: { disable: true }
+    },
+    seek: {
+      table: { disable: true }
+    },
+    'time-update': {
+      table: { disable: true }
+    },
+    'volume-update': {
+      table: { disable: true }
+    },
+    'subtitle-available': {
+      table: { disable: true }
+    }
+  }}
+/>
+
+export const Template = (args, { argTypes }) => ({
+  props: Object.keys(argTypes),
+  components: { VClapprPlayer },
+  template:
+    '<v-clappr-player :id="id" :source="source" width="100%" :aspect-ratio="16 / 9" />',
+});
+
+# Usage
+
+After instaling the component use it in your application.
+
+```js
+<template>
+  <v-clappr-player
+    id="example"
+    source="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
+    width="100%"
+    :options="options"
+    :aspect-ratio="16 / 9"
+  />
+</template>
+
+<script>
+import VClapprPlayer from 'v-clappr-player'
+
+export default {
+  components: {
+    VClapprPlayer
+  }
+}
+</script>
+
+```
+### See how it looks
+
+<Canvas>
+  <Story
+    name="ExampleSimple"
+    parameters={{ layout: 'fullscreen' }}
+    decorators={[() => ({template: '<div style="width: 100%; margin: auto;"><div style="width: 640px; margin: auto;"><story /></div></div>'})]}
+    argTypes={{
+      id: {
+        defaultValue: 'example',
+        table: { disable: true }
+      }
+    }}
+  >
+    {Template.bind({})}
+  </Story>
+</Canvas>
+
+## Accessing the player
+
+You can access clappr player to use any of it's methods. Check a list of methods at [clappr docs](https://github.com/clappr/clappr-core#books-api-documentation).
+
+```js
+<template>
+  <v-clappr-player
+    ref="clappr"
+    id="accessing-player"
+    source="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
+    width="100%"
+    :aspect-ratio="16 / 9"
+  />
+</template>
+
+<script>
+import VClapprPlayer from 'v-clappr-player'
+
+export default {
+  components: {
+    VClapprPlayer
+  },
+  methods: {
+    playVideo () {
+      this.$refs.clappr.player.play()
+    }
+  }
+}
+</script>
+```

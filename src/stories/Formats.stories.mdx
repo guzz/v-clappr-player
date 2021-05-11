@@ -1,0 +1,176 @@
+import { Meta, Canvas, Story, ArgsTable } from '@storybook/addon-docs/blocks';
+import VClapprPlayer from '../components/VClapprPlayer.vue';
+
+<Meta
+  title="Formats"
+  component={VClapprPlayer}
+  argTypes={{
+    source: {
+      defaultValue: 'https://bitdash-a.akamaihd.net/content/MI201109210084_1/m3u8s/f08e80da-bf1d-4e3d-8899-f0f6155f6efa.m3u8',
+      control: {
+        type: 'text'
+      }
+    },
+    id: {
+      table: { disable: true }
+    },
+    width: {
+      table: { disable: true }
+    },
+    height: {
+      table: { disable: true }
+    },
+    aspectRatio: {
+      table: { disable: true }
+    },
+    externalPlugins: {
+      table: { disable: true }
+    },
+    error: {
+      table: { disable: true }
+    },
+    resize: {
+      table: { disable: true }
+    },
+    play: {
+      table: { disable: true }
+    },
+    pause: {
+      table: { disable: true }
+    },
+    stop: {
+      table: { disable: true }
+    },
+    stop: {
+      table: { disable: true }
+    },
+    seek: {
+      table: { disable: true }
+    },
+    'time-update': {
+      table: { disable: true }
+    },
+    'volume-update': {
+      table: { disable: true }
+    },
+    'subtitle-available': {
+      table: { disable: true }
+    }
+  }}
+/>
+
+export const Template = (args, { argTypes }) => ({
+  props: Object.keys(argTypes),
+  components: { VClapprPlayer },
+  template:
+    '<v-clappr-player :id="id" :source="source" width="100%" :options="options" :aspect-ratio="16 / 9" />',
+});
+
+# Formats suported
+
+You can check all clappr suported format in [clappr docs](https://github.com/clappr/clappr/blob/dev/README.md#film_strip-supported-formats).
+
+`VClapprPlayer` has already some default playback plugins configured for convinience.
+This plugins are forks from the original plugins published on npm.
+
+
+Playback         |Original|Fork|Npm|
+-----------------|--------|----|---|
+Youtube          |[Original](https://github.com/towerz/clappr-youtube-playback)|[Fork](https://github.com/guzz/clappr-youtube-playback)|[Npm](https://www.npmjs.com/package/@guzzj/clappr-youtube-playback)
+Dash Shaka       |[Original](https://github.com/clappr/dash-shaka-playback)|[Fork](https://github.com/guzz/dash-shaka-playback)|[Npm](https://www.npmjs.com/package/@guzzj/dash-shaka-playback)
+
+-------------
+
+### Play from YouTube Url
+
+<Canvas>
+  <Story
+    name="FormatYoutube"
+    parameters={{ layout: 'fullscreen' }}
+    decorators={[() => ({template: '<div style="width: 100%; margin: auto;"><div style="width: 640px; margin: auto;"><story /></div></div>'})]}
+    argTypes={{
+      id: {
+        defaultValue: 'youtube-playback'
+      },
+      source: {
+        defaultValue: 'https://www.youtube.com/watch?v=fCUTX1jurJ4'
+      }
+    }}
+  >
+    {Template.bind({})}
+  </Story>
+</Canvas>
+
+-------------
+
+### Play `.mpd` files with shaka player
+
+<Canvas>
+  <Story
+    name="FormatDash"
+    parameters={{ layout: 'fullscreen' }}
+    decorators={[() => ({template: '<div style="width: 100%; margin: auto;"><div style="width: 640px; margin: auto;"><story /></div></div>'})]}
+    argTypes={{
+      id: {
+        defaultValue: 'format-dash'
+      },
+      source: {
+        defaultValue: '//storage.googleapis.com/shaka-demo-assets/angel-one/dash.mpd'
+      }
+    }}
+  >
+    {Template.bind({})}
+  </Story>
+</Canvas>
+
+-------------
+
+### Play HLS livestreams
+
+<Canvas>
+  <Story
+    name="FormatLive"
+    parameters={{ layout: 'fullscreen' }}
+    decorators={[() => ({template: '<div style="width: 100%; margin: auto;"><div style="width: 640px; margin: auto;"><story /></div></div>'})]}
+    argTypes={{
+      id: {
+        defaultValue: 'format-live'
+      },
+      source: {
+        defaultValue: 'https://cph-p2p-msl.akamaized.net/hls/live/2000341/test/master.m3u8'
+      }
+    }}
+  >
+    {Template.bind({})}
+  </Story>
+</Canvas>
+
+-------------
+
+### Sumary table
+
+<div
+  style={{
+    display: 'flex',
+    flexWrap: 'wrap',
+    flex: '1 1 auto',
+    justifyContent: 'center',
+    boxSizing: 'border-box'
+  }}
+>
+
+Format         |HLS|MP4|MP3|WEBM| DASH | JPG/PNG/GIF |
+---------------|---|---|---|----|------|------|
+IE10           | ![suported](https://github.githubassets.com/images/icons/emoji/unicode/2714.png) | ![suported](https://github.githubassets.com/images/icons/emoji/unicode/2714.png) | ![suported](https://github.githubassets.com/images/icons/emoji/unicode/2714.png) |  ✘ | ✘ | ![suported](https://github.githubassets.com/images/icons/emoji/unicode/2714.png) 
+IE11           | ![suported](https://github.githubassets.com/images/icons/emoji/unicode/2714.png) | ![suported](https://github.githubassets.com/images/icons/emoji/unicode/2714.png) | ![suported](https://github.githubassets.com/images/icons/emoji/unicode/2714.png) |  ✘ | ![suported](https://github.githubassets.com/images/icons/emoji/unicode/2714.png) | ![suported](https://github.githubassets.com/images/icons/emoji/unicode/2714.png) 
+Microsoft Edge | ![suported](https://github.githubassets.com/images/icons/emoji/unicode/2714.png) | ![suported](https://github.githubassets.com/images/icons/emoji/unicode/2714.png) | ? |  ? | ![suported](https://github.githubassets.com/images/icons/emoji/unicode/2714.png) | ? 
+Firefox        | ![suported](https://github.githubassets.com/images/icons/emoji/unicode/2714.png) | ![suported](https://github.githubassets.com/images/icons/emoji/unicode/2714.png) | ![suported](https://github.githubassets.com/images/icons/emoji/unicode/2714.png) |  ![suported](https://github.githubassets.com/images/icons/emoji/unicode/2714.png) | ![suported](https://github.githubassets.com/images/icons/emoji/unicode/2714.png) | ✘
+Chrome         | ![suported](https://github.githubassets.com/images/icons/emoji/unicode/2714.png) | ![suported](https://github.githubassets.com/images/icons/emoji/unicode/2714.png) | ![suported](https://github.githubassets.com/images/icons/emoji/unicode/2714.png) |  ![suported](https://github.githubassets.com/images/icons/emoji/unicode/2714.png) | ![suported](https://github.githubassets.com/images/icons/emoji/unicode/2714.png) | ![suported](https://github.githubassets.com/images/icons/emoji/unicode/2714.png) 
+Safari         | ![suported](https://github.githubassets.com/images/icons/emoji/unicode/2714.png) | ![suported](https://github.githubassets.com/images/icons/emoji/unicode/2714.png) | ![suported](https://github.githubassets.com/images/icons/emoji/unicode/2714.png) |  ✘ | ![suported](https://github.githubassets.com/images/icons/emoji/unicode/2714.png) | ✘
+iPhone         | ![suported](https://github.githubassets.com/images/icons/emoji/unicode/2714.png) | ![suported](https://github.githubassets.com/images/icons/emoji/unicode/2714.png) | ![suported](https://github.githubassets.com/images/icons/emoji/unicode/2714.png) |  ✘ | ✘ | ![suported](https://github.githubassets.com/images/icons/emoji/unicode/2714.png) 
+iPad           | ![suported](https://github.githubassets.com/images/icons/emoji/unicode/2714.png) | ![suported](https://github.githubassets.com/images/icons/emoji/unicode/2714.png) | ![suported](https://github.githubassets.com/images/icons/emoji/unicode/2714.png) |  ✘ | ✘ | ![suported](https://github.githubassets.com/images/icons/emoji/unicode/2714.png) 
+Android        | ![suported](https://github.githubassets.com/images/icons/emoji/unicode/2714.png) | ![suported](https://github.githubassets.com/images/icons/emoji/unicode/2714.png) | ![suported](https://github.githubassets.com/images/icons/emoji/unicode/2714.png) |  ✘ | ![suported](https://github.githubassets.com/images/icons/emoji/unicode/2714.png) | ✘ 
+WiiU Browser   | ![suported](https://github.githubassets.com/images/icons/emoji/unicode/2714.png) | ![suported](https://github.githubassets.com/images/icons/emoji/unicode/2714.png) | ✘ |  ? | ![suported](https://github.githubassets.com/images/icons/emoji/unicode/2714.png) | ✘ 
+PS4 Browser    | ![suported](https://github.githubassets.com/images/icons/emoji/unicode/2714.png) | ![suported](https://github.githubassets.com/images/icons/emoji/unicode/2714.png) | ✘ |  ? | ![suported](https://github.githubassets.com/images/icons/emoji/unicode/2714.png) | ✘ 
+
+</div>

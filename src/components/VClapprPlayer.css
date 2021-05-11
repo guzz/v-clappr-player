@@ -1,0 +1,4 @@
+#player {
+  transition: height .3s ease .3s;
+  width: 100%;
+}

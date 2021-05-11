@@ -1,0 +1,114 @@
+import { Meta, Canvas, Story, ArgsTable } from '@storybook/addon-docs/blocks';
+import VClapprPlayer from '../../components/VClapprPlayer.vue';
+
+<Meta
+  title="Plugins/Instructions"
+  component={VClapprPlayer}
+/>
+
+# Clappr Plugins
+
+Clappr is greatly extensible with the use of plugins. `VClapprPlayer` has already some pre configured plugins, each one has it's own doc page where you can check how to use them.
+
+Some of this plugins where forked and published with some changes to the original code, check the table below to understand witch plugins where changed and the sources for the new plugins.
+
+### Pre configured plugins
+
+Plugin            |Original|Fork|Npm|Docs|
+------------------|--------|----|---|----|
+Context Menu      |[Original](https://github.com/joaopaulovieira/clappr-context-menu-plugin)| - |[Npm](https://www.npmjs.com/package/clappr-context-menu-plugin)|[Page](/docs/plugins-context-plugin--context-plugin)
+Picture in Picture|[Original](https://github.com/tjenkinson/clappr-pip-plugin)|[Fork](https://github.com/guzz/clappr-pip-plugin)|[Npm](https://www.npmjs.com/package/@guzzj/clappr-pip-plugin)|[Page](/docs/plugins-picture-in-picture-plugin--pip-plugin)
+Queue             |[Original](https://github.com/joaopaulovieira/clappr-queue-plugin)| - |[Npm](https://www.npmjs.com/package/clappr-queue-plugin)|[Page](/docs/plugins-queue-plugin--queue-plugin)
+Stats             |[Original](https://github.com/clappr/clappr-stats)|[Fork](https://github.com/guzz/clappr-stats)|[Npm](https://www.npmjs.com/package/@guzzj/stats-plugin)|[Page](/docs/plugins-stats-plugin--stats-plugin)
+NerdStats         |[Original](https://github.com/lucasrodcosta/clappr-nerd-stats)|[Fork](https://github.com/guzz/clappr-nerd-stats)|[Npm](https://www.npmjs.com/package/@guzzj/clappr-nerd-stats)|[Page](/docs/plugins-stats-plugin--nerd-stats-plugin#nerdstats-usage)
+Thumbnails        |[Original](https://github.com/tjenkinson/clappr-thumbnails-plugin)|[Fork](https://github.com/guzz/clappr-thumbnails-plugin)|[Npm](https://www.npmjs.com/package/@guzzj/clappr-thumbnails-plugin)|[Page](/docs/plugins-thumbnails-plugin--thumbnails-plugin)
+
+<br />
+
+## Register external plugins
+
+You can still register other plugins, you can check [clappr docs](https://github.com/clappr/clappr/blob/dev/README.md#external-plugins) to check other plugins available.
+
+Some plugins in this list do not have a JS module export, some of the Forks done for this project where done just to build as a module, is not recomended to install plugins with js import in the header html.
+
+You can check my forks to understand how to upgrade deprecated plugins or generating a module export.
+
+### Installing an external plugin
+
+Let's take a look on how to register other plugins, for this we will use the [Clappr Playback Rate Plugin](https://github.com/bikegriffith/clappr-playback-rate-plugin) as a example.
+
+<br />
+
+#### 1 - Install the plugin
+
+```bash
+npm install clappr-playback-rate-plugin
+
+#or
+
+yarn add clappr-playback-rate-plugin
+```
+
+#### 2 - Import and configure the plugin
+
+Import the plugin in the parent component where `VClapprPlayer` is mounted.
+
+```js
+// YourComponent.vue
+<template>
+  <v-clappr-player
+    ref="clappr"
+    id="expanded-player"
+    source="https://bitdash-a.akamaihd.net/content/MI201109210084_1/m3u8s/f08e80da-bf1d-4e3d-8899-f0f6155f6efa.m3u8"
+    width="100%"
+    :aspect-ratio="16 / 9"
+    :options="options"
+    :external-plugins="externalPlugins"
+  />
+</template>
+
+<script>
+import VClapprPlayer from 'v-clappr-player'
+import PlaybackRatePlugin from 'clappr-playback-rate-plugin'
+
+export default {
+  components: {
+    VClapprPlayer
+  },
+  computed: {
+    externalPlugins () {
+      return [PlaybackRatePlugin]
+    },
+    options () {
+      return {
+        playbackRateConfig: { // Insert the plugin options in the options object
+          defaultValue: 1,
+          options: [
+            {value: 0.5, label: '0.5x'},
+            {value: 1, label: '1x'},
+            {value: 2, label: '2x'},
+          ],
+          // rateSuffix: 'x',
+        },
+      }
+    }
+  }
+}
+</script>
+```
+
+#### 3 - It's done!
+
+Enjoy your newly installed plugin
+
+
+## Develop your own plugin
+
+Check this [page](https://github.com/clappr/clappr/wiki) for more information on how to develop your very own plugin.
+
+
+## TODO's
+
+- [ ] Add [Media Control Plugin](https://github.com/joaopaulovieira/clappr-media-control-plugin) as a pre-configured plugin
+- [ ] Add [Chromecast](https://github.com/clappr/clappr-chromecast-plugin) as a pre-configured plugin
+- [ ] Update and add [VAST Ad plugin](https://github.com/vix-simplex/clappr-ad-plugin) as a pre-configured plugin

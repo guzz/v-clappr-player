@@ -1,0 +1,143 @@
+import { Meta, Canvas, Story, ArgsTable } from '@storybook/addon-docs/blocks';
+import { ActionBar } from '@storybook/components';
+import VClapprPlayer from '../../components/VClapprPlayer.vue';
+
+<Meta
+  title="Plugins/Built in Plugins"
+  component={VClapprPlayer}
+  argTypes={{
+    id: {
+      table: { disable: true }
+    },
+    width: {
+      table: { disable: true }
+    },
+    height: {
+      table: { disable: true }
+    },
+    aspectRatio: {
+      table: { disable: true }
+    },
+    externalPlugins: {
+      table: { disable: true }
+    },
+    error: {
+      table: { disable: true }
+    },
+    resize: {
+      table: { disable: true }
+    },
+    play: {
+      table: { disable: true }
+    },
+    pause: {
+      table: { disable: true }
+    },
+    stop: {
+      table: { disable: true }
+    },
+    stop: {
+      table: { disable: true }
+    },
+    seek: {
+      table: { disable: true }
+    },
+    'time-update': {
+      table: { disable: true }
+    },
+    'volume-update': {
+      table: { disable: true }
+    },
+    'subtitle-available': {
+      table: { disable: true }
+    }
+  }}
+/>
+
+export const Template = (args, { argTypes }) => ({
+  props: Object.keys(argTypes),
+  components: { VClapprPlayer },
+  template: `<v-clappr-player :id="id" :source="source" width="100%" :options="options" :aspect-ratio="16 / 9" />`,
+});
+
+# Built in Plugins
+
+Clappr has some built in plugins that allow you to customize the player.
+
+You can check the description in [clappr docs](https://github.com/clappr/clappr-plugins#plugins-description) and bellow some examples on how to use it.
+
+```js
+<template>
+  <v-clappr-player
+    ref="clappr"
+    id="themed-player"
+    source="//storage.googleapis.com/shaka-demo-assets/angel-one/dash.mpd"
+    width="100%"
+    :options="options"
+    :aspect-ratio="16 / 9"
+  />
+</template>
+
+<script>
+import VClapprPlayer from 'v-clappr-player'
+
+export default {
+  components: {
+    VClapprPlayer
+  },
+  computed: {
+    options () {
+      return {
+        mediacontrol: { // Media Control plugin
+          seekbar: '#f39d52',
+          buttons: 'green'
+        },
+        // Poster plugin
+        poster: 'https://i.pinimg.com/originals/df/51/0f/df510f0dd46630f457df9f88d3379691.jpg',
+        // Watermark plugin
+        watermark: '/logo.svg',
+        watermarkLink: '/docs/geting-started--page',
+        position: 'top-right',
+        // Google Analytics plugin
+        gaAccount: 'UA-XXXXXX-X', // Your token
+        gaTrackerName: 'MyPlayerInstance'
+      }
+    }
+  }
+}
+</script>
+```
+
+### See how it looks
+
+<Canvas>
+  <Story
+    name="BuiltInPlugins"
+    parameters={{ layout: 'fullscreen' }}
+    decorators={[() => ({template: '<div style="width: 100%; margin: auto;"><div style="width: 640px; margin: auto;"><story /></div></div>'})]}
+    argTypes={{
+      source: {
+        defaultValue: 'http://sample.vodobox.com/planete_interdite/planete_interdite_alternate.m3u8'
+      },
+      options: {
+        title: null,
+        description: null,
+        defaultValue: {
+          mediacontrol: {
+            seekbar: '#41b883',
+            buttons: '#41b883'
+          },
+          poster: 'https://i.pinimg.com/originals/df/51/0f/df510f0dd46630f457df9f88d3379691.jpg',
+          watermark: '/logo.svg',
+          watermarkLink: '/docs/geting-started--page',
+          position: 'top-right'
+        },
+      },
+      id: {
+        defaultValue: 'themed-player'
+      }
+    }}
+  >
+    {Template.bind({})}
+  </Story>
+</Canvas>
