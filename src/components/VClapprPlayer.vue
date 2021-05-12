@@ -3,10 +3,10 @@
 </template>
 
 <script>
-import Clappr from '@clappr/player'
+import Clappr from '@guzzj/clappr-player'
 import YoutubePlayback from '@guzzj/clappr-youtube-playback'
 import DashShakaPlayback from '@guzzj/dash-shaka-playback'
-import LevelSelector from '@guzzj/level-selector'
+import LevelSelector from '@guzzj/clappr-level-selector-plugin'
 import ClapprProps from './ClapprProps'
 import Plugins from './plugins'
 import './VClapprPlayer.css'
@@ -90,7 +90,6 @@ export default {
       })
       delete options.parent
       this.player = new Clappr.Player(options)
-      this.loadPlugins()
     },
     checkSize () {
       const isPercentage = string => typeof string === 'string' && string.includes('%')
@@ -119,12 +118,6 @@ export default {
     },
     loadSources (source) {
       this.player.load(source)
-    },
-    loadPlugins () {
-      for (let i = 0; this.registeredPlugins.length > i; i++) {
-        const pluginName = this.registeredPlugins[i]
-        this.plugins[pluginName] = this.player.getPlugin(pluginName)
-      }
     }
   }
 }

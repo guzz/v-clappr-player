@@ -1,4 +1,4 @@
-import ContextMenuPlugin from 'clappr-context-menu-plugin'
+import ContextMenuPlugin from '@guzzj/clappr-context-menu-plugin'
 
 export default {
   props: {

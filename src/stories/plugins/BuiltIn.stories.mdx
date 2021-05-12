@@ -95,9 +95,31 @@ export default {
         // Poster plugin
         poster: 'https://i.pinimg.com/originals/df/51/0f/df510f0dd46630f457df9f88d3379691.jpg',
         // Watermark plugin
-        watermark: '/logo.svg',
-        watermarkLink: '/docs/geting-started--page',
-        position: 'top-right',
+        watermark: {
+          url: "/logo.svg",
+          link: "/",
+          position: "bottom-right",
+          opacity: 0.8,
+          // Default behavior is "always-fixed", without "fixed" it will
+          // nudge the whatermark when controls are visible and set it's z-index to 10000.
+          // Values permited: "discrete", "discrete-fixed", "always", "always-fixed".
+          // If the values don't match, it will fallback to "always-fixed".
+          behavior: "discrete",
+          // The delay and opacity for the watermark when in "discrete" behavior
+          discreteDelay: 3000,
+          discreteOpacity: 0.2,
+          // The nudge in pixels when the behavior is not fixed.
+          // This values are calculated according to the setted position.
+          onControls: {
+            x: 0,
+            y: 48
+          },
+          // Nudge the watermark
+          nudge: {
+            y: 5,
+            x: -24
+          }
+        }
         // Google Analytics plugin
         gaAccount: 'UA-XXXXXX-X', // Your token
         gaTrackerName: 'MyPlayerInstance'
@@ -128,9 +150,16 @@ export default {
             buttons: '#41b883'
           },
           poster: 'https://i.pinimg.com/originals/df/51/0f/df510f0dd46630f457df9f88d3379691.jpg',
-          watermark: '/logo.svg',
-          watermarkLink: '/docs/geting-started--page',
-          position: 'top-right'
+          watermark: {
+            url: "/logo.svg",
+            link: "/",
+            opacity: 0.8,
+            behavior: "discrete",
+            nudge: {
+              y: 5,
+              x: -24
+            }
+          }
         },
       },
       id: {

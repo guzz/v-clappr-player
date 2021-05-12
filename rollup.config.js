@@ -5,8 +5,8 @@ import buble from '@rollup/plugin-buble'; // Transpila com considerável suporte
 export default {
   input: 'src/wrapper.js', // Caminho relativo ao package.json
   external: [
-    '@clappr/player',
-    'clappr-queue-plugin',
+    '@guzzj/clappr-player',
+    '@guzzj/clappr-queue-plugin',
     '@guzzj/clappr-youtube-playback',
     '@guzzj/level-selector'
   ],
@@ -14,8 +14,8 @@ export default {
     name: 'VClapprPlayer',
     exports: 'named',
     globals: {
-      '@clappr/player': 'Clappr',
-      'clappr-queue-plugin': 'QueuePlugin',
+      '@guzzj/clappr-player': 'Clappr',
+      '@guzzj/clappr-queue-plugin': 'QueuePlugin',
       '@guzzj/clappr-youtube-playback': 'YoutubePlayback',
       '@guzzj/level-selector': 'LevelSelector'
     }

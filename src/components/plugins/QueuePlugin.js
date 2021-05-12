@@ -1,4 +1,4 @@
-import QueuePlugin from 'clappr-queue-plugin'
+import QueuePlugin from '@guzzj/clappr-queue-plugin'
 
 export default {
   props: {
